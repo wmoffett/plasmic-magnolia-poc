@@ -13,8 +13,21 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    // I dont like this added from magnolia
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "paths": {
+      "@lib/*": ["lib/*"],
+      "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"],
+      "~/*":["./*"],
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "typeRoots": [
+    "../node_modules/@types",
+    "../@types"
+  ]
 }
