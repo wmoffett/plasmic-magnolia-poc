@@ -18,10 +18,6 @@ export function EditablePage({
   templateAnnotations 
 }: EditablePageProps) {
 
-  // console.log('loaded EditablePage', content);
-  // console.log('loaded config', config);
-  // console.log('loaded templateAnnotations', templateAnnotations);
-
   return <MognoliaEditablePage content={content} config={config} templateAnnotations={templateAnnotations} />
 }
 
