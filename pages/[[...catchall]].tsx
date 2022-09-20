@@ -120,7 +120,7 @@ export default function PlasmicAndMagnoliaLoaderPage(props: catchallProps) {
   }
   const pageMeta = plasmicData.entryCompMetas[0];
 
-  console.log('!page', page);
+  // console.log('!page', page);
   return (
     <>
       {/* 
