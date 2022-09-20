@@ -2,23 +2,15 @@ import {
   Box,
   Heading,
   HStack,
+  SimpleGrid,
+  Grid,
+  GridItem,
+
 } from "@chakra-ui/react";
 
 import { EditableArea } from "@magnolia/react-editor";
 import Container from "@components/Container";
-
-
-interface Metadata {
-  // see below from example response contract
-  name: string;
-  "@path": string;
-  "@id": string; 
-  "@nodeType": string;
-  "mgnl:lastModified": string;
-  "mgnl:template": string;
-  "mgnl:created": string;
-  "@nodes": Array<string>;
-}
+import { Metadata } from "@components/magnolia/Types";
 
 interface BasicProps {
   title: string;
@@ -30,19 +22,30 @@ interface BasicProps {
 const Basic = (props : BasicProps) => {
 
   const { main, extras, title, metadata } = props;
+
+
   return (
-    <Container>
-      <HStack spacing={8}>
-        <Box width="container.xl">
-          <Heading as="h1" size={"xl"} m={1}>{title}</Heading>
-          <EditableArea className="Area" content={main} />
-        </Box>
-        <Box>
-          <EditableArea className="Area" content={extras} />
-        </Box>
-      </HStack>
-      
-    </Container>
+    
+    <Box as="main" role="contentinfo" paddingY="2" marginX="auto">
+      <Container>
+        <HStack spacing={0}>
+        <Grid 
+          width={"container.xl"}
+          templateRows='repeat(1, 1fr)'
+          templateColumns='repeat(12, 1fr)'
+          gap={4}
+        >
+          <GridItem colSpan={10} width="container.lg">
+            <Heading as="h1" size={"xl"} m={1}>{title}</Heading>
+            <EditableArea content={main} />
+          </GridItem>
+          <GridItem colSpan={2} paddingBlockStart={12}>
+            <EditableArea content={extras} />
+          </GridItem>
+        </Grid>
+        </HStack>
+      </Container>
+    </Box>
   );
 }
 

@@ -10,37 +10,18 @@ interface EditablePageProps {
     [key:string]: JSX.Element;
   }
   templateAnnotations:any;
-
 }
 
-
-// static propTypes = {
-//   children: PropTypes.elementType,
-//   content: PropTypes.object,
-//   templateDefinitions: PropTypes.object,
-//   templateAnnotations: PropTypes.object,
-//   config: PropTypes.shape({
-//     componentMappings: PropTypes.object
-//   })
-// }
-
-// static defaultProps = {
-//   children: null,
-//   content: null,
-//   templateDefinitions: null,
-//   templateAnnotations: null,
-//   config: {
-//     componentMappings: {}
-//   }
-// }
-
-// EditablePage extends React.PureComponent
-//  : React.PureComponent
 export function EditablePage({
   content,
   config,
   templateAnnotations 
-}:EditablePageProps) {
+}: EditablePageProps) {
+
+  // console.log('loaded EditablePage', content);
+  // console.log('loaded config', config);
+  // console.log('loaded templateAnnotations', templateAnnotations);
+
   return <MognoliaEditablePage content={content} config={config} templateAnnotations={templateAnnotations} />
 }
 
@@ -49,7 +30,7 @@ export const EditablePageMeta: ComponentMeta<EditablePageProps> = {
   displayName: "Editable Page",
   description: "Magnolia Editable Page",
   importName: "EditablePage",
-  importPath: './components/',
+  importPath: './components/magnolia/',
   props: {
     content: {
       type: "object",
@@ -67,4 +48,5 @@ export const EditablePageMeta: ComponentMeta<EditablePageProps> = {
       description: "Template Annotations"
     },
   },
+  providesData: true
 };

@@ -24,17 +24,18 @@ import {
 export const getStaticPaths: GetStaticPaths = async () => {
 
   let paths =  await mgnlGetStaticPaths();
-  // if we were using plasmic to do the same thing.
-  //   const pageModules = await PLASMIC.fetchPages();
-  //   return {
-  //     paths: pageModules.map((mod) => ({
-  //       params: {
-  //         catchall: mod.path.substring(1).split("/"),
-  //       },
-  //     })),
-  //     fallback: "blocking",
-  //   };
-  // }
+    // Magnolia is our primary data provider
+    // if we were using plasmic to do the same thing.
+    // const pageModules = await PLASMIC.fetchPages();
+    // return {
+    //   paths: pageModules.map((mod) => ({
+    //     params: {
+    //       catchall: mod.path.substring(1).split("/"),
+    //     },
+    //   })),
+    //   fallback: "blocking",
+    // };
+
   return {
     paths,
     fallback: false,
@@ -57,6 +58,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
   const pageMeta = plasmicData.entryCompMetas[0];
   // Cache the necessary data fetched for the page
+  // The Plasmic Component, ie template by Page Name.
+  // console.log('!pageMeta.displayName', pageMeta.displayName);
+  // component={pageMeta.displayName}
   const queryCache = await extractPlasmicQueryData(
     <ChakraProvider theme={theme}>
       <PlasmicRootProvider
@@ -80,7 +84,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
      </ChakraProvider>
    );
   // Use revalidate if you want incremental static regeneration
-  //   return { props: { plasmicData, queryCache }, revalidate: 60 };
   return {
     props: {
       isPagesApp: isPagesApp,
@@ -89,13 +92,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
       page: page,
       pagenav: pagenav,
       templateAnnotations: templateAnnotations,
+      plasmicPath: plasmicPath,
       plasmicData: plasmicData,
       queryCache: queryCache
     },
     revalidate: 60
   };
 }
-
 interface catchallProps {
   isPagesApp:any;
   page:any;
@@ -103,6 +106,7 @@ interface catchallProps {
   pagenav:any;
   isPagesAppEdit:any;
   basename:any;
+  plasmicPath: string;
   plasmicData?: ComponentRenderData;
   queryCache?: Record<string, any>;
 }
@@ -116,9 +120,12 @@ export default function PlasmicAndMagnoliaLoaderPage(props: catchallProps) {
   }
   const pageMeta = plasmicData.entryCompMetas[0];
 
+  console.log('!page', page);
   return (
     <>
-      {/* <div className={isPagesAppEdit ? 'disable-a-pointer-events' : ''}>
+      {/* 
+      The original Magnolia Render Flow
+      <div className={isPagesAppEdit ? 'disable-a-pointer-events' : ''}>
         {pagenav && <Navigation content={pagenav} nodeName={nodeName} basename={basename} />}
         {page && <EditablePage content={page} config={config} templateAnnotations={templateAnnotations} />}
       </div> */}

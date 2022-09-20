@@ -1,5 +1,8 @@
 import type { GetStaticPropsContext } from "next";
-
+/**
+ * This is a mess, I know. 
+ * We can clean it up later....... -- William
+ */
 const defaultBaseUrl = process.env.NEXT_PUBLIC_MGNL_HOST;
 const pagesApi = defaultBaseUrl + '/.rest/delivery/pages/v1';
 const templateAnnotationsApi = defaultBaseUrl + '/.rest/template-annotations/v1';

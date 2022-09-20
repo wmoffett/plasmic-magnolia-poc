@@ -153,7 +153,6 @@ export function Footer({
   }
 
   return (
-  
     <Box as="footer" role="contentinfo" bg="caringGreen.700" textColor="white">
         <Container>
           <Box paddingY="8" marginX="auto" paddingX={{ base: "4", lg: "0" }}>
