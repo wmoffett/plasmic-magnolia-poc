@@ -9,7 +9,7 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react';
-import { languages } from '~/utils';
+import { getLanguages } from '../api';
 
 let BASENAME = '';
 
@@ -27,7 +27,7 @@ function renderLink(item) {
 
 function Navigation(props) {
   const { content, nodeName, basename } = props;
-
+  const languages = getLanguages();
   BASENAME = basename;
 
   return (
