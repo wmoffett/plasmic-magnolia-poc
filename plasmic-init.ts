@@ -11,6 +11,11 @@ import {
   FooterMeta 
 } from "@components/Footer";
 
+import { 
+  Navigation, 
+  NavigationMeta
+} from "@components/magnolia/components/Navigation";
+
 export const PLASMIC = initPlasmicLoader({
   projects: [
     {
@@ -52,4 +57,9 @@ PLASMIC.registerComponent(
 PLASMIC.registerComponent(
   Footer,
   FooterMeta
+);
+
+PLASMIC.registerComponent(
+  Navigation,
+  NavigationMeta
 );

@@ -3,7 +3,7 @@ import {
   getStaticPaths as mgnlGetStaticPaths,
   getStaticProps as mgnlGetStaticProps,
 } from '@components/magnolia/api';
-import Navigation from '@components/magnolia/components/Navigation';
+// import Navigation from '@components/magnolia/components/Navigation';
 import config from '@components/magnolia/config';
 import {
   ComponentRenderData,
@@ -17,13 +17,24 @@ import Error from 'next/error';
 import { useRouter } from 'next/router';
 import { PLASMIC } from '../plasmic-init';
 
+import { EditablePage } from "@components/magnolia/EditablePage";
 const nodeName = '/nextjs-ssg-minimal';
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  let paths = await mgnlGetStaticPaths();
+
+  
+  
+
   // Magnolia is our primary data provider
   // if we were using plasmic to do the same thing.
-  // const pageModules = await PLASMIC.fetchPages();
+  const pageModules = await PLASMIC.fetchPages();
+
+  let paths= pageModules.map((mod) => ({
+    params: {
+      catchall: mod.path.substring(1).split("/"),
+    },
+  }));
+
   // return {
   //   paths: pageModules.map((mod) => ({
   //     params: {
@@ -33,6 +44,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   //   fallback: "blocking",
   // };
 
+  // let paths = await mgnlGetStaticPaths();
   return {
     paths,
     fallback: false,
@@ -40,6 +52,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+
+
+  // console.log('!getStaticProps', context);
   // Magnolia LOADING
   const {
     isPagesApp,
@@ -58,6 +73,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
       : Array.isArray(catchall)
       ? `/${catchall.join('/')}`
       : '/';
+
+  // console.log('plasmicPath', plasmicPath);
+
   const plasmicData = await PLASMIC.maybeFetchComponentData(
     plasmicPath
   );
@@ -71,28 +89,31 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // The Plasmic Component, ie template by Page Name.
   // console.log('!pageMeta.displayName', pageMeta.displayName);
   // component={pageMeta.displayName}
-  const queryCache = await extractPlasmicQueryData(
-    <ChakraProvider theme={theme}>
-      <PlasmicRootProvider
-        loader={PLASMIC}
-        prefetchedData={plasmicData}
-        pageParams={pageMeta.params}
-      >
-        <PlasmicComponent
-          component={pageMeta.displayName}
-          componentProps={{
-            editablePage: {
-              props: {
-                content: page,
-                config: config,
-                templateAnnotations: templateAnnotations,
-              },
-            },
-          }}
-        />
-      </PlasmicRootProvider>
-    </ChakraProvider>
-  );
+  // const queryCache = await extractPlasmicQueryData(
+    
+  //   <ChakraProvider theme={theme}>
+  //     <PlasmicRootProvider
+  //       loader={PLASMIC}
+  //       prefetchedData={plasmicData}
+  //       pageParams={pageMeta.params}
+  //     >
+  //       <PlasmicComponent
+  //         component={pageMeta.displayName}
+  //         componentProps={{
+  //           editablePage: {
+  //             props: {
+  //               content: page,
+  //               config: config,
+  //               templateAnnotations: templateAnnotations,
+  //             },
+  //           },
+  //         }}
+  //       />
+  //     </PlasmicRootProvider>
+  //   </ChakraProvider>
+  // );
+  const queryCache = {}
+
   // Use revalidate if you want incremental static regeneration
   return {
     props: {
@@ -106,9 +127,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
       plasmicData: plasmicData,
       queryCache: queryCache,
     },
-    revalidate: 60,
+    revalidate: 1,
   };
 };
+
+
 interface catchallProps {
   isPagesApp: any;
   page: any;
@@ -134,27 +157,24 @@ export default function PlasmicAndMagnoliaLoaderPage(
     queryCache,
   } = props;
   const router = useRouter();
+
+
   if (!plasmicData || plasmicData.entryCompMetas.length === 0) {
     return <Error statusCode={404} />;
   }
   const pageMeta = plasmicData.entryCompMetas[0];
 
-  // console.log('!page', page);
+  console.log('!!!!PlasmicAndMagnoliaLoaderPage',page)
   return (
     <>
-      {/* 
-      The original Magnolia Render Flow
-      <div className={isPagesAppEdit ? 'disable-a-pointer-events' : ''}>
-        {page && <EditablePage content={page} config={config} templateAnnotations={templateAnnotations} />}
-      </div> */}
+      
+      {/* <EditablePage 
+        content={page} 
+        config={config} 
+        templateAnnotations={templateAnnotations} 
+      /> */}
+     
       <ChakraProvider theme={theme}>
-        {pagenav && (
-          <Navigation
-            content={pagenav}
-            nodeName={nodeName}
-            basename={basename}
-          />
-        )}
         <PlasmicRootProvider
           loader={PLASMIC}
           prefetchedData={plasmicData}
@@ -172,6 +192,7 @@ export default function PlasmicAndMagnoliaLoaderPage(
                   templateAnnotations: templateAnnotations,
                 },
               },
+            
             }}
           />
         </PlasmicRootProvider>

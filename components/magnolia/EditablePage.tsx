@@ -3,7 +3,6 @@ import React from 'react';
 import { EditablePage as MognoliaEditablePage } from "@magnolia/react-editor";
 import { ComponentMeta } from "@plasmicapp/host";
 
-
 interface EditablePageProps {
   content:any;
   config?: { 
