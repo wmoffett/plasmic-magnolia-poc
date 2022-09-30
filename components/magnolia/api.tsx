@@ -14,7 +14,6 @@ const nodeName =
 export function getLanguages() {
   const languages =
     process?.env?.NEXT_PUBLIC_MGNL_LANGUAGES?.split(' ') ?? [];
-
   return languages;
 }
 
@@ -77,40 +76,11 @@ export async function getStaticProps(
   context: GetStaticPropsContext
 ): Promise<StaticProps> {
 
-
-   console.log('ALERT :::: getStaticProps ::: context', context);
-
-  // TODO:
-  // Once we understand how or if we should interface with Plasmic
-  // we could then revisit this. 
-  // I'm not sure we need to eveluate the context.preview or just make the request. -- william
-  // const resolvedUrl = context.preview
-  //   ? context.previewData?.query?.slug
-  //   : context.params?.catchall
-  //   ? '/' + context.params.catchall.join('/')
-  //   : '';
-  
   const resolvedUrl = context.params?.catchall ? '/' + context.params?.catchall.join('/') : '';
-
   const currentLanguage = getCurrentLanguage(resolvedUrl);
   const isDefaultLanguage = currentLanguage === getLanguages()[0];
   const isPagesApp = context.previewData?.query?.mgnlPreview || null;
-  const isPagesAppEdit = isPagesApp === 'false';
-
-  global.mgnlInPageEditor = isPagesAppEdit;
-
-  // TODO:
-  // commenting out as this was part of the cache issue
-  // still researching -- william
-  // Find out page path in Magnolia
-  // let pagePath = context.preview
-  //   ? nodeName + resolvedUrl.replace(new RegExp('.*' + nodeName), '')
-  //   : nodeName + resolvedUrl;
-
-  // if (!isDefaultLanguage) {
-  //   pagePath = pagePath.replace('/' + currentLanguage, '');
-  // }
-
+  global.mgnlInPageEditor = isPagesApp === 'false';
 
   let pagePath = resolvedUrl;
 
@@ -118,6 +88,7 @@ export async function getStaticProps(
   const pagesRes = await fetch(
     setURLSearchParams(pagesApi + pagePath, 'lang=' + currentLanguage)
   );
+  
   const page = await pagesRes.json();
   // TODO:
   // We could move this request into a different function. -- william
