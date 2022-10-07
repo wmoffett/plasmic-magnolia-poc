@@ -5,9 +5,11 @@ import { ComponentMeta } from "@plasmicapp/host";
 
 interface EditablePageProps {
   content:any;
-  config?: { 
-    [key:string]: JSX.Element;
-  }
+  config?: {
+    componentMappings: {
+      [key: string]: (props: any) => JSX.Element;
+    }
+  },
   templateAnnotations:any;
 }
 
