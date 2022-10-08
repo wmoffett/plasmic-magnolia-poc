@@ -14,14 +14,10 @@ import {
 } from "@plasmicapp/host";
 import { getLanguages } from "../api";
 
-let BASENAME = "";
-
-// In author build all links should go via preview API e.g. /contact => /api/preview?slug=/contact
-
 function renderLink(item) {
   return (
     <BreadcrumbItem key={item["@id"]}>
-      <BreadcrumbLink href={BASENAME + item["@path"] || "/"}>
+      <BreadcrumbLink href={item["@path"] || "/"}>
         {item["@name"]}
       </BreadcrumbLink>
     </BreadcrumbItem>
@@ -29,9 +25,13 @@ function renderLink(item) {
 }
 
 export function Navigation(props) {
-  const { content, nodeName, basename } = props;
-  const languages = getLanguages();
-  BASENAME = basename;
+
+  const { content } = props;
+  // const languages = getLanguages();
+
+  if (typeof content["@nodes"] =='undefined') {
+    return(<></>);
+  }
 
   return (
     <Flex justify="space-between">
@@ -41,7 +41,7 @@ export function Navigation(props) {
             renderLink(content[nodeName])
           )}
       </Breadcrumb>
-      <Menu>
+      {/* <Menu>
         <MenuButton as={Button}>Languages</MenuButton>
         <MenuList>
           {languages.map((language, i) => (
@@ -56,7 +56,7 @@ export function Navigation(props) {
             </MenuItem>
           ))}
         </MenuList>
-      </Menu>
+      </Menu> */}
     </Flex>
   );
 }

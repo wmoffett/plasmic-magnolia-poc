@@ -1,13 +1,13 @@
-import { isObject, isString } from 'lodash';
+import { isObject, isString, isNull, isUndefined  } from 'lodash';
 
 interface ParsingProps {
   source: string;
   values: {
-    [key: string]: string|number;
+    [key: string]: string|number|boolean|object|{ url: string; }[];
   },
   strip: boolean;
 }
-
+//null|undefined
 export const ParseMagnoliaPage = (props: ParsingProps) => {
 
   const { source, values, strip } = props; 
@@ -27,28 +27,52 @@ export const ParseMagnoliaPage = (props: ParsingProps) => {
   });
 }
 
+function getProperty(key, props) {
+
+  let notation = key.split( "." );
+
+  for(let i = 0; i < notation.length; i++ ){
+    if(typeof props[notation[i]] != 'undefined') {
+      props = props[notation[i]];
+    }
+  }
+  return props;
+}
+
 export const Parser = (props: ParsingProps): String => {
 
-  const keys = props.source.match(/\{[\w]+\}/g);
+  const keys = props.source.match(/\{[\w\.]+\}/g);
 
   keys && keys.forEach((search) => { 
     
     const key = search.split(/{|}/g)[1];
 
-    if (typeof props.values[key] != 'undefined') {
+    if(key.includes('.')){
+
       props.source = 
         props.source.replace(
           search,
-          props.values[key].toString()
+          getProperty(key, props.values)
         );
+
+    } else if (typeof props.values[key] != 'undefined') {
+
+        props.source = 
+          props.source.replace(
+            search,
+            props.values[key].toString()
+          );
+
     } 
 
     if(props.strip) {
+
       props.source = 
         props.source.replace(
           search,
           ''
         );
+
     }
   });
 
