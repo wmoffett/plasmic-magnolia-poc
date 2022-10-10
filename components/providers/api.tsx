@@ -1,6 +1,9 @@
 const baseUrl = process.env.NEXT_PUBLIC_CANARIO_HOST
 
 // shamlessly taken from canario and altered slightly for this POC
+// I have not verified all the attributes so this may not be 100% accurate.
+// Where is provider.amenitiesLegacy coming from?
+
 // was LocationPromotion
 type Promotion = {
   id: string;
@@ -38,6 +41,16 @@ type Accommodations = {
   features: string[];
   images: { position: number; url: string; description: string | null }[];
 };
+
+//GetLocationByParamLocationAmenitiesResponse
+export type Amenities = {
+  id: string;
+  amenityName: string | null;
+  amenityTypeId: number | null;
+  amenityCategoryName: string | null;
+  amenityCategoryId: number | null;
+};
+
 export type Provider = {
   id: string;
   legacyId: string;
@@ -78,10 +91,10 @@ export type Provider = {
       description: string;
       imageURL: string;
     };
-    // accommodations: GetLocationByParamLocationAccommodationsResponse[];
-    // amenities: GetLocationByParamLocationAmenitiesResponse[];
+    accommodations: Accommodations[];
+    amenities: Amenities[];
   }[];
-  // amenities: GetLocationByParamLocationAmenitiesResponse[];
+  amenities: Amenities[];
   accommodations: Accommodations[];
   reviews: Review[];
   totalReviewCount: number;
