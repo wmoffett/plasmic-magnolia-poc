@@ -43,7 +43,7 @@ type Accommodations = {
 };
 
 //GetLocationByParamLocationAmenitiesResponse
-export type Amenities = {
+type Amenities = {
   id: string;
   amenityName: string | null;
   amenityTypeId: number | null;
