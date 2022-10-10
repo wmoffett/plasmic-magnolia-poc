@@ -2,8 +2,6 @@ import { Box } from "@chakra-ui/react";
 import Footer from "@components/Footer";
 
 interface Props {
-  // pageTitle: string;
-  // pageDescription: string;
   children: React.ReactNode;
 }
 

@@ -6,7 +6,6 @@ import {
 } from "@chakra-ui/react";
 
 import { EditableArea } from "@magnolia/react-editor";
-// import Container from "@components/Container";
 import { Container } from "@chakra-ui/react";
 interface BasicProps {
   col1: any;

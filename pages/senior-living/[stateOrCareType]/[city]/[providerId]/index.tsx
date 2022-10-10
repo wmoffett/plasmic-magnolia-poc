@@ -66,7 +66,6 @@ export default function ProviderPage(
   {
     source: page, 
     values: {
-      'rollupType': pageParams.rollupType ? pageParams.rollupType : '',
       'stateOrCareType': pageParams.stateOrCareType ? pageParams.stateOrCareType : '',
       'city': pageParams.city ? pageParams.city : '',
       'providerId': pageParams.providerId ? pageParams.providerId : '',

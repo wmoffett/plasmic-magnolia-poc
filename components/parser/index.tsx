@@ -1,5 +1,8 @@
-import { isObject, isString, isNull, isUndefined  } from 'lodash';
-
+import { isObject, isString } from 'lodash';
+/** 
+ * Simple Magnolia Parser to be use to replace content tags {foo} with values in a page response.
+ * @author William Moffett <wmoffett@caring.com> 
+ */
 interface ParsingProps {
   source: string;
   values: {
@@ -7,7 +10,7 @@ interface ParsingProps {
   },
   strip: boolean;
 }
-//null|undefined
+
 export const ParseMagnoliaPage = (props: ParsingProps) => {
 
   const { source, values, strip } = props; 
@@ -17,7 +20,7 @@ export const ParseMagnoliaPage = (props: ParsingProps) => {
     if (!key.startsWith('@') && !key.startsWith('mgnl:') && !key.startsWith('jcr:')) {
 
       if (isString(source[key])){
-        source[key] = Parser({source: source[key],  values: values, strip: strip});
+        source[key] = Parser({source: source[key], values: values, strip: strip});
       }
     
       if (isObject(source[key])){
@@ -25,6 +28,7 @@ export const ParseMagnoliaPage = (props: ParsingProps) => {
       }
     }
   });
+  
 }
 
 function getProperty(key, props) {
@@ -62,7 +66,6 @@ export const Parser = (props: ParsingProps): String => {
             search,
             props.values[key].toString()
           );
-
     } 
 
     if(props.strip) {

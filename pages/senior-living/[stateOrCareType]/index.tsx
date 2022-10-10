@@ -17,7 +17,10 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   return {
     props: {
       page: page,
-      templateAnnotations: templateAnnotations
+      templateAnnotations: templateAnnotations,
+      pageParams: {
+        stateOrCareType: context.params?.stateOrCareType,
+      }
     },
   };
 };

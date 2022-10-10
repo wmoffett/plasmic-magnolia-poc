@@ -18,7 +18,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       page: page,
       templateAnnotations: templateAnnotations,
       pageParams: {
-        // rollupType: context.params?.rollupType,
         stateOrCareType: context.params?.stateOrCareType,
         city: context.params?.city,
       }

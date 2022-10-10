@@ -1,6 +1,43 @@
 const baseUrl = process.env.NEXT_PUBLIC_CANARIO_HOST
 
 // shamlessly taken from canario and altered slightly for this POC
+// was LocationPromotion
+type Promotion = {
+  id: string;
+  promotionText: string;
+  startsAt: string;
+  endsAt: string;
+  visibleOnlyToFa: boolean;
+};
+
+// LocationReview
+type Review = {
+  id: string;
+  createdAt: string;
+  rating: number;
+  title: string;
+  content: string;
+  authorUrl: string;
+  authorName: string;
+  providerResponse: string;
+};
+
+// GetLocationByParamLocationAccommodationsResponse
+type Accommodations = {
+  id: string;
+  accommodationType: {
+    name: string;
+  };
+  title: string | null;
+  description: string | null;
+  startingPriceCents: number | null;
+  priceCurrency: string | null;
+  bedCount: number;
+  bathroomCount: number;
+  squareFeetSize: string | null;
+  features: string[];
+  images: { position: number; url: string; description: string | null }[];
+};
 export type Provider = {
   id: string;
   legacyId: string;
@@ -45,8 +82,8 @@ export type Provider = {
     // amenities: GetLocationByParamLocationAmenitiesResponse[];
   }[];
   // amenities: GetLocationByParamLocationAmenitiesResponse[];
-  // accommodations: GetLocationByParamLocationAccommodationsResponse[];
-  // reviews: LocationReview[];
+  accommodations: Accommodations[];
+  reviews: Review[];
   totalReviewCount: number;
   caringStars: Record<string, number>[];
   starsBySection: {
@@ -55,7 +92,7 @@ export type Provider = {
     quality: number;
     staff: number;
   };
-  // promotions: LocationPromotion[];
+  promotions: Promotion[];
 };
 
 export interface GetProviderProps {

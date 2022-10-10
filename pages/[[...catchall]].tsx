@@ -57,11 +57,6 @@ export default function CatchAllPage(
     <>     
       <ChakraProvider theme={theme}>
         <PageContainer>
-        {/* <Navigation 
-          content={navigation.content} 
-          nodeName={navigation.nodeName} 
-          basename={navigation.basename} 
-        /> */}
           <EditablePage 
             content={page} 
             config={config} 

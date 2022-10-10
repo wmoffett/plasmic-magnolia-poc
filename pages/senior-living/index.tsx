@@ -17,6 +17,8 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
     props: {
       page: page,
       templateAnnotations: templateAnnotations,
+      pageParams: {
+      }
     },
   };
 };
