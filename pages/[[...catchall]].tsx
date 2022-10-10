@@ -1,5 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { getPage, PageProps, getNav, NavProps } from '@components/magnolia/api';
+import { getPage, PageProps } from '@components/magnolia/api';
+// removed for now getNav, NavProps
 import config from '@components/magnolia/config';
 import PageContainer from "@components/PageContainer";
 import theme from '@styles/theme';
@@ -30,7 +31,7 @@ const pagePath = typeof catchall === 'string'
 
 
 interface CatchAllProps extends PageProps {
-  navigation: NavProps
+  // navigation: NavProps
 }
 
 export default function CatchAllPage(
@@ -39,7 +40,7 @@ export default function CatchAllPage(
   const {
     page,
     templateAnnotations,
-    navigation
+    // navigation
   } = props;
 
 
