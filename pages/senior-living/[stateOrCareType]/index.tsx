@@ -5,6 +5,15 @@ import PageContainer from "@components/PageContainer";
 import theme from '@styles/theme';
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { EditablePage } from "@components/magnolia/EditablePage";
+import { ParseMagnoliaPage } from '@components/parser'
+
+interface PageParams {
+  stateOrCareType: string;
+}
+
+interface CareTypePageProps extends PageProps{
+  pageParams: PageParams;
+}
 
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
@@ -27,12 +36,22 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 
 
 export default function CareTypePage(
-  props: PageProps
+  props: CareTypePageProps
 ) {
   const {
     page,
     templateAnnotations,
+    pageParams
   } = props;
+
+  ParseMagnoliaPage(
+    {
+      source: page, 
+      values: {
+        'stateOrCareType': pageParams.stateOrCareType ? pageParams.stateOrCareType : '',
+      }, 
+      strip: false}
+    );
 
   return (
     <>     
