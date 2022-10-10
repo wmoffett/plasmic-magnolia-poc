@@ -46,7 +46,6 @@ export async function getPage(
 
   global.mgnlInPageEditor = isPagesApp === 'false';
 
-
   // Fetching page content
   const pagesRes = await fetch(pagesApi + pagePath);
 
