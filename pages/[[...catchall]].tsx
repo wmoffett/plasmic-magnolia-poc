@@ -6,9 +6,6 @@ import theme from '@styles/theme';
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { EditablePage } from "@components/magnolia/EditablePage";
 
-import { Navigation } from "@components/magnolia/components/Navigation";
-
-
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   
 const catchall = context.params?.catchall;
@@ -23,17 +20,10 @@ const pagePath = typeof catchall === 'string'
     templateAnnotations,
   } = await getPage({pagePath: pagePath});
 
-
-  const navigation = await getNav();
-
-  console.log(navigation.content["@nodes"]);
-
-  // Use revalidate if you want incremental static regeneration
   return {
     props: {
       page: page,
-      templateAnnotations: templateAnnotations,
-      navigation: navigation,
+      templateAnnotations: templateAnnotations
     }
   };
 };
