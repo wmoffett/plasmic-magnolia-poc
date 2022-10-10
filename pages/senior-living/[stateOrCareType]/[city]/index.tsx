@@ -6,6 +6,7 @@ import theme from '@styles/theme';
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { EditablePage } from "@components/magnolia/EditablePage";
 import { ParseMagnoliaPage } from '@components/parser'
+
 interface PageParams {
   stateOrCareType: string;
   city: string;
@@ -15,7 +16,7 @@ interface CityPageProps extends PageProps{
   pageParams: PageParams;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context : GetServerSidePropsContext) => {
 
   const {
     page,
@@ -52,7 +53,7 @@ export default function CityPage(
       }, 
       strip: false}
     );
-    
+
   return (
     <>     
       <ChakraProvider theme={theme}>
