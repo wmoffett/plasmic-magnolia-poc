@@ -1,4 +1,4 @@
-const baseUrl = process.env.NEXT_PUBLIC_CANARIO_HOST
+const baseUrl = process.env.NEXT_PUBLIC_CANARIO_HOST;
 
 // shamlessly taken from canario and altered slightly for this POC
 // I have not verified all the attributes so this may not be 100% accurate.
@@ -39,7 +39,11 @@ type Accommodations = {
   bathroomCount: number;
   squareFeetSize: string | null;
   features: string[];
-  images: { position: number; url: string; description: string | null }[];
+  images: {
+    position: number;
+    url: string;
+    description: string | null;
+  }[];
 };
 
 //GetLocationByParamLocationAmenitiesResponse
@@ -110,12 +114,11 @@ export type Provider = {
 
 export interface GetProviderProps {
   slug: string;
- }
+}
 
 export async function getProvider(
   props: GetProviderProps
-): Promise<Provider | null > {
-
+): Promise<Provider | null> {
   const { slug } = props;
 
   const response = await fetch(`${baseUrl}/api/locations/${slug}`);
