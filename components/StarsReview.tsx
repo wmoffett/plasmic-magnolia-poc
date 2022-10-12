@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Heading, Stack, VStack, HStack, Button, Icon, IconProps, Text } from "@chakra-ui/react";
 import { MdStar, MdStarHalf, MdStarOutline, MdEdit } from "react-icons/md";
-import { ComponentMeta } from "@plasmicapp/host";
 
 export const pluralize = (
   count: number,
@@ -18,28 +17,6 @@ interface StarsReviewProps {
   size?: IconProps["boxSize"];
   className?: string;
 }
-
-export const StarsReviewMeta: ComponentMeta<StarsReviewProps> = {
-  name: "StarsReview",
-  displayName: "Stars Review",
-  description: "Display Rating stars and review counts",
-  importName: "StarsReview",
-  importPath: './components/',
-  props: {
-    rating: {
-      type: "number",
-      displayName: "Rating",
-      description: "The rating value",
-      defaultValue: 4.5,
-    },
-    totalReviews: {
-      type: "number",
-      displayName: "The total review count",
-      description: "The total number of reviews",
-      defaultValue: 19,
-    },
-  },
-};
 
 export function StarsReview({
   rating,

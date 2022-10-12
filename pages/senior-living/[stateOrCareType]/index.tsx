@@ -1,48 +1,57 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { getPage, PageProps } from '@components/magnolia/api';
-// removed for now getNav, NavProps
 import config from '@components/magnolia/config';
 import PageContainer from "@components/PageContainer";
 import theme from '@styles/theme';
 import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { EditablePage } from "@components/magnolia/EditablePage";
+import { ParseMagnoliaPage } from '@components/parser'
+
+interface PageParams {
+  stateOrCareType: string;
+}
+
+interface CareTypePageProps extends PageProps{
+  pageParams: PageParams;
+}
+
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  
-const catchall = context.params?.catchall;
-const pagePath = typeof catchall === 'string'
-    ? catchall
-    : Array.isArray(catchall)
-    ? `/${[...new Set(catchall)].join('/')}`
-    : `/home`;
 
   const {
     page,
     templateAnnotations,
-  } = await getPage({pagePath: pagePath});
+  } = await getPage({pagePath: `/senior-living/stateOrCareType`});
 
   return {
     props: {
       page: page,
-      templateAnnotations: templateAnnotations
-    }
+      templateAnnotations: templateAnnotations,
+      pageParams: {
+        stateOrCareType: context.params?.stateOrCareType,
+      }
+    },
   };
 };
 
 
-interface CatchAllProps extends PageProps {
-  // navigation: NavProps
-}
-
-export default function CatchAllPage(
-  props: CatchAllProps
+export default function CareTypePage(
+  props: CareTypePageProps
 ) {
   const {
     page,
     templateAnnotations,
-    // navigation
+    pageParams
   } = props;
 
+  ParseMagnoliaPage(
+    {
+      source: page, 
+      values: {
+        'stateOrCareType': pageParams.stateOrCareType ? pageParams.stateOrCareType : '',
+      }, 
+      strip: false}
+    );
 
   return (
     <>     
@@ -58,4 +67,3 @@ export default function CatchAllPage(
     </>
   );
 }
-

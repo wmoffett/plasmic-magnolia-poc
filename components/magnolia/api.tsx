@@ -1,8 +1,3 @@
-import type { GetStaticPropsContext } from 'next';
-/**
- * This is a mess, I know.
- * We can clean it up later....... -- William
- */
 const defaultBaseUrl = process.env.NEXT_PUBLIC_MGNL_HOST;
 const pagesApi = defaultBaseUrl + '/.rest/delivery/pages/v1';
 const templateAnnotationsApi =
@@ -18,100 +13,43 @@ export function getLanguages() {
   return languages;
 }
 
-function getCurrentLanguage(url) {
-  let languages = getLanguages();
+export interface NavProps {
+  content: object;
+}
 
-  for (let i = 0; i < languages.length; i++) {
-    const language = languages[i];
+export async function getNav(): Promise<NavProps> {
 
-    if (url.indexOf('/' + language) > -1) return language;
+  const pagenavRes = await fetch(pagenavApi + nodeName);
+  const navigation = await pagenavRes.json();
+
+  return {
+    content: navigation
   }
-
-  return languages[0];
 }
 
-function setURLSearchParams(url, param) {
-  return url + (url.indexOf('?') > -1 ? '&' : '?') + param;
+interface GetPageProps{
+  pagePath: string;
 }
 
-// getStaticPath
-// This is a custom Magnolia function that acts on the nodes byrefrence
-// on the pagenav API
-// http://localhost:8080/magnoliaAuthor/.rest/delivery/pagenav/v1/nextjs-ssg-minimal
-function getStaticPath(node, paths) {
-  let catchall = node['@path'].replace(nodeName, '');
-  catchall = catchall.split('/');
-  catchall.shift();
-
-  getLanguages().forEach((language, i) => {
-    let i18ncatchall = JSON.parse(JSON.stringify(catchall));
-    if (i !== 0) i18ncatchall.unshift(language);
-    paths.push({ params: { catchall: i18ncatchall } });
-  });
-
-  node['@nodes'].forEach((nodeName) =>
-    getStaticPath(node[nodeName], paths)
-  );
-}
-
-export async function getStaticPaths(): Promise<string[]> {
-  let paths = [];
-  const navRes = await fetch(pagenavApi + nodeName);
-  const nav = await navRes.json();
-
-  getStaticPath(nav, paths);
-
-  return paths;
-}
-
-interface StaticProps {
-  isPagesApp: any;
-  isPagesAppEdit: boolean;
-  basename: string;
+export interface PageProps {
   page: string;
-  pagenav: string;
   templateAnnotations: any;
 }
 
-export async function getStaticProps(
-  context: GetStaticPropsContext
-): Promise<StaticProps> {
-  const resolvedUrl = context.preview
-    ? context.previewData?.query?.slug
-    : context.params?.catchall
-    ? '/' + context.params.catchall.join('/')
-    : '';
-  const currentLanguage = getCurrentLanguage(resolvedUrl);
-  const isDefaultLanguage = currentLanguage === getLanguages()[0];
-  const isPagesApp = context.previewData?.query?.mgnlPreview || null;
-  const isPagesAppEdit = isPagesApp === 'false';
+export async function getPage(
+  props: GetPageProps
+): Promise<PageProps> {
 
-  global.mgnlInPageEditor = isPagesAppEdit;
+  const { pagePath } = props;
 
-  // Find out page path in Magnolia
-  let pagePath = context.preview
-    ? nodeName + resolvedUrl.replace(new RegExp('.*' + nodeName), '')
-    : nodeName + resolvedUrl;
+  const isPagesApp = 'false';
 
-  if (!isDefaultLanguage) {
-    pagePath = pagePath.replace('/' + currentLanguage, '');
-  }
+  global.mgnlInPageEditor = isPagesApp === 'false';
 
   // Fetching page content
-  const pagesRes = await fetch(
-    setURLSearchParams(pagesApi + pagePath, 'lang=' + currentLanguage)
-  );
-  const page = await pagesRes.json();
+  const pagesRes = await fetch(pagesApi + pagePath);
 
-  // Fetching page navigation
-  const pagenavRes = await fetch(
-    setURLSearchParams(
-      pagenavApi + nodeName,
-      'lang=' + currentLanguage
-    )
-  );
-  const pagenav = await pagenavRes.json();
-  // Fetch template annotations only inside Magnolia WYSIWYG
+  const page = await pagesRes.json();
 
   let templateAnnotations = {};
   if (isPagesApp) {
@@ -122,11 +60,7 @@ export async function getStaticProps(
   }
 
   return {
-    isPagesApp: isPagesApp,
-    isPagesAppEdit: isPagesApp === 'false',
-    basename: isDefaultLanguage ? '' : '/' + currentLanguage,
     page: page,
-    pagenav: pagenav,
     templateAnnotations: templateAnnotations,
   };
 }

@@ -6,10 +6,13 @@ import {
 interface HeadlineProps {
   text: string;
 }
-  const Headline = ({
-    ...props
-  }: HeadlineProps): React.ReactElement => (
-    <Heading as="h2" size={"xl"} m={1} {...props} />
+
+const Headline = ( props : HeadlineProps): React.ReactElement => {
+  return (
+    <Heading as="h2" size={"xl"}>
+      {props.text}
+    </Heading>
   );
+}
 
 export default Headline;

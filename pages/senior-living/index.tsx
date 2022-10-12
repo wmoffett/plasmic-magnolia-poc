@@ -1,6 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { getPage, PageProps } from '@components/magnolia/api';
-// removed for now getNav, NavProps
 import config from '@components/magnolia/config';
 import PageContainer from "@components/PageContainer";
 import theme from '@styles/theme';
@@ -8,41 +7,29 @@ import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { EditablePage } from "@components/magnolia/EditablePage";
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  
-const catchall = context.params?.catchall;
-const pagePath = typeof catchall === 'string'
-    ? catchall
-    : Array.isArray(catchall)
-    ? `/${[...new Set(catchall)].join('/')}`
-    : `/home`;
 
   const {
     page,
     templateAnnotations,
-  } = await getPage({pagePath: pagePath});
+  } = await getPage({pagePath: `/senior-living`});
 
   return {
     props: {
       page: page,
-      templateAnnotations: templateAnnotations
-    }
+      templateAnnotations: templateAnnotations,
+      pageParams: {
+      }
+    },
   };
 };
 
-
-interface CatchAllProps extends PageProps {
-  // navigation: NavProps
-}
-
-export default function CatchAllPage(
-  props: CatchAllProps
+export default function RollupTypePage(
+  props: PageProps
 ) {
   const {
     page,
     templateAnnotations,
-    // navigation
   } = props;
-
 
   return (
     <>     
@@ -58,4 +45,3 @@ export default function CatchAllPage(
     </>
   );
 }
-

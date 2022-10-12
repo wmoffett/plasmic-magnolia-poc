@@ -33,7 +33,7 @@ interface ImageProps {
 }
 const Image = ( props : ImageProps): React.ReactElement => {
     return (
-      <Box boxSize='md'>
+      <Box boxSize='xs'>
         <ChakraImage 
           src={process.env.NEXT_PUBLIC_MGNL_HOST + '/dam/' + props.image['@id'] + props.image['@path']}
           alt={props.image.metadata.caption} 
