@@ -11,6 +11,7 @@ const SearchTile: React.FC<Props> = ({ providerId }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [result, setResult] = useState<SearchResultInterface>();
 
+  //TODO: move to a shared file
   const getData = (keyword: string) => {
     setIsLoading(true);
     AlgoliaClient.search('provider_poc_dev', keyword ?? '', {
@@ -30,7 +31,6 @@ const SearchTile: React.FC<Props> = ({ providerId }) => {
   }, [providerId]);
 
   if (!result || isLoading) return <SearchResultSkeleton />;
-  console.log('🚀 ~ file: SearchTile.tsx ~ line 33 ~ result', result);
   const minPrice = Math.min(
     ...result.services.map((o) => o.costs.startingPriceCents)
   );
