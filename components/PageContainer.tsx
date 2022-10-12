@@ -2,10 +2,16 @@ import { Box } from "@chakra-ui/react";
 import Footer from "@components/Footer";
 
 interface Props {
+  title: string;
+  description: string;
+  metaKeys: string;
   children: React.ReactNode;
 }
 
 const PageContainer: React.FC<Props> = ({
+  title,
+  description,
+  metaKeys,
   children,
 }) => {
   return (

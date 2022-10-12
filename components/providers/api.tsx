@@ -3,7 +3,7 @@ const baseUrl = process.env.NEXT_PUBLIC_CANARIO_HOST;
 // shamlessly taken from canario and altered slightly for this POC
 // I have not verified all the attributes so this may not be 100% accurate.
 // Where is provider.amenitiesLegacy coming from?
-//
+
 // was LocationPromotion
 type Promotion = {
   id: string;
