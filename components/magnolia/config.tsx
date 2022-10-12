@@ -17,7 +17,6 @@ const config = {
     'base-lm:pages/default': DefaultPage,
     'base-lm:pages/1column': OneColumnPage,
     'base-lm:pages/2column': TwoColumnPage,
-    "nextjs-ssg-minimal-lm:pages/basic": Basic,
     'base-lm:components/headline': Headline,
     'base-lm:components/image': Image,
     'base-lm:components/paragraph': Paragraph,
