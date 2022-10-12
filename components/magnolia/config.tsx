@@ -1,17 +1,16 @@
-
-import DefaultPage from '@components/magnolia/pages/DefaultPage';
-import OneColumnPage   from '@components/magnolia/pages/OneColumnPage';
-import TwoColumnPage from '@components/magnolia/pages/TwoColumnPage';
+import Expander from '@components/magnolia/components/Expander';
 import Headline from '@components/magnolia/components/Headline';
 import Image from '@components/magnolia/components/Image';
-import Paragraph from '@components/magnolia/components/Paragraph';
-import Expander from '@components/magnolia/components/Expander';
-import List from '@components/magnolia/components/List';
 import Item from '@components/magnolia/components/Item';
-import  TwoColumn from "@components/magnolia/components/TwoColumn";
-import  ThreeColumn from "@components/magnolia/components/ThreeColumn";
+import List from '@components/magnolia/components/List';
+import Paragraph from '@components/magnolia/components/Paragraph';
+import ThreeColumn from '@components/magnolia/components/ThreeColumn';
+import TwoColumn from '@components/magnolia/components/TwoColumn';
+import DefaultPage from '@components/magnolia/pages/DefaultPage';
+import OneColumnPage from '@components/magnolia/pages/OneColumnPage';
+import TwoColumnPage from '@components/magnolia/pages/TwoColumnPage';
 
-import Basic from '@components/magnolia/pages/Basic';
+import SearchTile from '@components/Search/SearchTile';
 const config = {
   componentMappings: {
     'base-lm:pages/default': DefaultPage,
@@ -25,6 +24,7 @@ const config = {
     'base-lm:components/listItem': Item,
     'base-lm:components/twocolumn': TwoColumn,
     'base-lm:components/threecolumn': ThreeColumn,
+    'dxp-module:components/searchTile': SearchTile,
   },
 };
 

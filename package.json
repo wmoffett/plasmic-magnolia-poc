@@ -14,6 +14,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@magnolia/react-editor": "1.2.1-beta2",
+    "algoliasearch": "^4.14.2",
     "framer-motion": "^7.2.1",
     "lodash": "^4.17.21",
     "next": "12.3.0",
